@@ -104,14 +104,3 @@ The application includes predefined technical skills such as:
 
 ---
 
-## How to Run
-
-```bash
-streamlit run app.py
-```
-
----
-
-## Author
-
-Mohit Bansal
