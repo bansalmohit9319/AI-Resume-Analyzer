@@ -1,45 +1,18 @@
-# =========================================================
-# AI RESUME ANALYZER (WITHOUT OPENAI API)
-# =========================================================
-
-# INSTALL LIBRARIES:
-# pip install streamlit PyPDF2 pandas
-
-# =========================================================
-# IMPORT LIBRARIES
-# =========================================================
-
 import streamlit as st
 import PyPDF2
 import pandas as pd
 
-
-# =========================================================
-# PAGE CONFIG
-# =========================================================
-
 st.set_page_config(
     page_title="AI Resume Analyzer",
-    page_icon="📄",
     layout="wide"
 )
 
 st.title(" AI Resume Analyzer")
 
-
-# =========================================================
-# FILE UPLOAD
-# =========================================================
-
 uploaded_file = st.file_uploader(
     "Upload Resume PDF",
     type=["pdf"]
 )
-
-
-# =========================================================
-# SKILLS DATABASE
-# =========================================================
 
 skills_database = [
     "Python",
@@ -69,11 +42,6 @@ skills_database = [
     "Excel"
 ]
 
-
-# =========================================================
-# CUSTOM SKILL ADDITION
-# =========================================================
-
 st.sidebar.header(" Add Custom Skills")
 
 new_skill = st.sidebar.text_input(
@@ -98,16 +66,7 @@ if st.sidebar.button("Add Skill"):
                 "Skill Already Exists"
             )
 
-
-# =========================================================
-# MAIN LOGIC
-# =========================================================
-
 if uploaded_file is not None:
-
-    # -----------------------------------------------------
-    # READ PDF
-    # -----------------------------------------------------
 
     pdf_reader = PyPDF2.PdfReader(uploaded_file)
 
@@ -121,11 +80,6 @@ if uploaded_file is not None:
 
             resume_text += text
 
-
-    # -----------------------------------------------------
-    # SHOW EXTRACTED TEXT
-    # -----------------------------------------------------
-
     st.subheader(" Extracted Resume Text")
 
     st.text_area(
@@ -134,11 +88,6 @@ if uploaded_file is not None:
         height=300
     )
 
-
-    # -----------------------------------------------------
-    # SKILL DETECTION
-    # -----------------------------------------------------
-
     detected_skills = []
 
     for skill in skills_database:
@@ -146,11 +95,6 @@ if uploaded_file is not None:
         if skill.lower() in resume_text.lower():
 
             detected_skills.append(skill)
-
-
-    # -----------------------------------------------------
-    # SHOW DETECTED SKILLS
-    # -----------------------------------------------------
 
     st.subheader(" Detected Skills")
 
@@ -168,10 +112,6 @@ if uploaded_file is not None:
         st.warning("No Skills Detected")
 
 
-    # -----------------------------------------------------
-    # ATS SCORE
-    # -----------------------------------------------------
-
     ats_score = min(len(detected_skills) * 5, 100)
 
     st.subheader(" ATS Score")
@@ -180,10 +120,6 @@ if uploaded_file is not None:
 
     st.success(f"ATS Score: {ats_score}%")
 
-
-    # -----------------------------------------------------
-    # ATS SCORE ANALYSIS
-    # -----------------------------------------------------
 
     if ats_score >= 80:
 
@@ -196,11 +132,6 @@ if uploaded_file is not None:
     else:
 
         st.warning("Resume Needs Improvement")
-
-
-    # -----------------------------------------------------
-    # MISSING IMPORTANT SKILLS
-    # -----------------------------------------------------
 
     important_skills = [
         "Python",
@@ -235,10 +166,6 @@ if uploaded_file is not None:
 
         st.success("No Important Skills Missing")
 
-
-    # -----------------------------------------------------
-    # RESUME SUGGESTIONS
-    # -----------------------------------------------------
 
     st.subheader(" Resume Suggestions")
 
@@ -286,11 +213,6 @@ if uploaded_file is not None:
             "Your Resume Looks Strong"
         )
 
-
-    # -----------------------------------------------------
-    # SHOW ALL AVAILABLE SKILLS
-    # -----------------------------------------------------
-
     st.subheader(" Skills Database")
 
     skills_database_df = pd.DataFrame(
@@ -299,11 +221,6 @@ if uploaded_file is not None:
     )
 
     st.dataframe(skills_database_df)
-
-
-# =========================================================
-# IF NO FILE UPLOADED
-# =========================================================
 
 else:
 
